@@ -1,0 +1,126 @@
+.pages-page {
+    min-height: calc(100vh - 75px);
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.section-label {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.page-header h1 {
+    margin-bottom: 0;
+}
+
+.pages-count {
+    padding: 8px 15px;
+    background-color: white;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.page-form-card {
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.page-form-card h3 {
+    margin-bottom: 20px;
+}
+
+.form-control,
+button {
+    min-height: 45px;
+}
+
+textarea.form-control {
+    min-height: 220px;
+}
+
+.pages-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.page-card {
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.page-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.page-card-header h3 {
+    margin-bottom: 5px;
+}
+
+.page-card-header div span {
+    color: #777;
+    font-size: 14px;
+}
+
+.status-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.active-status {
+    color: #0f5132;
+    background-color: #d1e7dd;
+}
+
+.inactive-status {
+    color: #842029;
+    background-color: #f8d7da;
+}
+
+.page-content {
+    display: -webkit-box;
+    min-height: 90px;
+    margin: 22px 0;
+    overflow: hidden;
+    color: #555;
+    line-height: 1.7;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+}
+.page-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 991px) {
+    .pages-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

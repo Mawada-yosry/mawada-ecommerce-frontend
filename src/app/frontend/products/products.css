@@ -1,0 +1,48 @@
+.products-page {
+    min-height: calc(100vh - 75px);
+    background-color: #f7f7f7;
+}
+
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.categories-list {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+}
+
+.category-link {
+    flex-shrink: 0;
+    padding: 9px 18px;
+    color: #111;
+    text-decoration: none;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+}
+
+.category-link:hover {
+    color: white;
+    background-color: #212529;
+    border-color: #212529;
+}
+
+.filters-card {
+    margin-bottom: 35px;
+    padding: 22px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.form-control,
+.form-select,
+button {
+    min-height: 45px;
+}

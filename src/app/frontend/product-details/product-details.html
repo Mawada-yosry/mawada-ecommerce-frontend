@@ -1,0 +1,61 @@
+<section class="product-details-page py-5">
+    <div class="container">
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (cartMessage) {
+            <div class="alert alert-success">{{ cartMessage }}</div>
+        }
+
+        @if (!isLoading && product) {
+            <div class="product-details-card">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-lg-6">
+                        <img [src]="staticURL + product.image" [alt]="product.name" class="product-image">
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        <p class="text-muted mb-2">{{ product.category.name }} / {{ product.subCategory.name }}</p>
+
+                        <h1>{{ product.name }}</h1>
+
+                        <p class="product-description">{{ product.description }}</p>
+
+                        <p class="product-price">{{ product.price }} EGP</p>
+
+                        @if (product.stockStatus === 'in_stock') {
+                            <p class="text-success">In stock</p>
+                        }
+
+                        @if (product.stockStatus === 'low_stock') {
+                            <p class="text-warning">Only {{ product.stockQuantity }} items left</p>
+                        }
+
+                        @if (product.stockStatus === 'out_of_stock') {
+                            <p class="text-danger">Out of stock</p>
+                        }
+
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-dark" [disabled]="product.stockStatus === 'out_of_stock' || isAddingToCart" (click)="addToCart()">
+                                @if (isAddingToCart) {
+                                    Adding...
+                                } @else {
+                                    Add To Cart
+                                }
+                            </button>
+
+                            <a routerLink="/products" class="btn btn-outline-dark">Back To Products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

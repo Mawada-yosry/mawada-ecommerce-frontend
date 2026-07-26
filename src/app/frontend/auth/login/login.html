@@ -1,0 +1,44 @@
+<section class="login-page">
+    <div class="container">
+        <div class="login-card">
+            <h1>Login</h1>
+            <p class="login-description">Enter your email or phone number to continue</p>
+
+            @if (errorMessage) {
+                <div class="alert alert-danger">{{ errorMessage }}</div>
+            }
+
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="mb-3">
+                    <label for="identifier" class="form-label">Email or Phone</label>
+                    <input id="identifier" type="text" class="form-control" formControlName="identifier">
+
+                    @if (loginForm.controls.identifier.touched && loginForm.controls.identifier.invalid) {
+                        <small class="text-danger">Email or phone is required</small>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control" formControlName="password">
+
+                    @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('required')) {
+                        <small class="text-danger">Password is required</small>
+                    }
+
+                    @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('minlength')) {
+                        <small class="text-danger">Password must be at least 6 characters</small>
+                    }
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100" [disabled]="isLoading">
+                    @if (isLoading) {
+                        Logging in...
+                    } @else {
+                        Login
+                    }
+                </button>
+            </form>
+        </div>
+    </div>
+</section>

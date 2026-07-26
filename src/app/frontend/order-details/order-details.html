@@ -1,0 +1,88 @@
+<section class="order-details-page py-5">
+    <div class="container">
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        @if (!isLoading && order) {
+            <div class="order-details-card">
+                <div class="order-title">
+                    <div>
+                        <h1>Order Details</h1>
+                        <p class="text-muted mb-0">Order #{{ order._id }}</p>
+                    </div>
+
+                    <span class="status-badge">{{ order.orderStatus }}</span>
+                </div>
+
+                <div class="order-data">
+                    <div>
+                        <span>Order Date</span>
+                        <strong>{{ order.createdAt | date:'medium' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Shipping Phone</span>
+                        <strong>{{ order.shippingPhone }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Payment Method</span>
+                        <strong>{{ order.paymentMethod }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Shipping Address</span>
+                        <strong>{{ order.shippingAddress }}</strong>
+                    </div>
+                </div>
+
+                <h3 class="mt-4 mb-3">Order Items</h3>
+
+                <div class="order-items">
+                    @for (item of order.items; track item._id) {
+                        <div class="order-item">
+                            <img [src]="staticURL + item.product.image" [alt]="item.product.name">
+
+                            <div class="item-information">
+                                <a [routerLink]="['/products', item.product.slug]">{{ item.product.name }}</a>
+                                <p>Quantity: {{ item.quantity }}</p>
+                                <p>Price At Sale: {{ item.price }} EGP</p>
+                                <strong>Total: {{ item.price * item.quantity }} EGP</strong>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="order-total">
+                    <span>Total Price</span>
+                    <strong>{{ order.totalPrice }} EGP</strong>
+                </div>
+
+                <div class="order-buttons">
+                    <a routerLink="/orders" class="btn btn-outline-dark">Back To Orders</a>
+
+                    @if (canCancelOrder()) {
+                        <button type="button" class="btn btn-danger" [disabled]="isCancelling" (click)="cancelOrder()">
+                            @if (isCancelling) {
+                                Cancelling...
+                            } @else {
+                                Cancel Order
+                            }
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>

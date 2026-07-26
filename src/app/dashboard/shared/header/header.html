@@ -1,0 +1,48 @@
+<div class="dashboard-header">
+    <div class="container-fluid">
+        <header class="d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+            <a routerLink="/dashboard/home" class="dashboard-logo">E-Commerce Dashboard</a>
+
+            <ul class="nav nav-pills align-items-center">
+                <li class="nav-item">
+                    <a routerLink="/dashboard/home" routerLinkActive="active" class="nav-link">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a routerLink="/home" class="nav-link">View Store</a>
+                </li>
+
+                @if (name) {
+                    <li class="nav-item">
+                        <span class="nav-link admin-name">Hi: {{ name }}</span>
+                    </li>
+                   <li class="nav-item">
+    <a routerLink="/dashboard/users" routerLinkActive="active" class="nav-link">Users</a>
+</li> 
+<li class="nav-item">
+    <a routerLink="/dashboard/categories" routerLinkActive="active" class="nav-link">Categories</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/dashboard/sub-categories" routerLinkActive="active" class="nav-link">SubCategories</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/dashboard/products" routerLinkActive="active" class="nav-link">Products</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/dashboard/orders" routerLinkActive="active" class="nav-link">Orders</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/dashboard/testimonials" routerLinkActive="active" class="nav-link">Testimonials</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/dashboard/pages" routerLinkActive="active" class="nav-link">Pages</a>
+</li>
+                }
+
+                <li class="nav-item">
+                    <button type="button" class="btn btn-link nav-link" (click)="logout()">Logout</button>
+                </li>
+            </ul>
+        </header>
+    </div>
+</div>

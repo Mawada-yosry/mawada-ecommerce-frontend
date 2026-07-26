@@ -1,0 +1,23 @@
+<div class="card product-card h-100">
+    <img [src]="staticURL + myProduct.image" class="card-img-top product-image" [alt]="myProduct.name">
+
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ myProduct.name }}</h5>
+        <p class="card-text text-muted">{{ myProduct.category.name }}</p>
+        <p class="product-price">{{ myProduct.price }} EGP</p>
+
+        @if (myProduct.stockStatus === 'low_stock') {
+            <p class="text-warning">Only {{ myProduct.stockQuantity }} items left</p>
+        }
+
+        @if (myProduct.stockStatus === 'out_of_stock') {
+            <p class="text-danger">Out of stock</p>
+        }
+
+        @if (myProduct.stockStatus === 'in_stock') {
+            <p class="text-success">In stock</p>
+        }
+
+        <a [routerLink]="['/products', myProduct.slug]" class="btn btn-dark mt-auto">More Details</a>
+    </div>
+</div>

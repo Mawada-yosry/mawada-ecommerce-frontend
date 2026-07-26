@@ -1,0 +1,161 @@
+<section class="cart-page py-5">
+    <div class="container">
+        <h1 class="mb-4">Shopping Cart</h1>
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoading && isGuest && guestItems.length === 0) {
+            <div class="empty-cart">
+                <h3>Your cart is empty</h3>
+                <a routerLink="/products" class="btn btn-dark mt-3">Browse Products</a>
+            </div>
+        }
+
+        @if (!isLoading && isGuest && guestItems.length > 0) {
+            <div class="alert alert-info">Your cart is saved on this device. Login is required to complete the order.</div>
+
+            <div class="row g-4">
+                <div class="col-12 col-lg-8">
+                    @for (item of guestItems; track item.product._id) {
+                        <div class="cart-item mb-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <img [src]="staticURL + item.product.image" [alt]="item.product.name" class="cart-image">
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <a [routerLink]="['/products', item.product.slug]" class="product-name">{{ item.product.name }}</a>
+                                    <p class="mb-1">Price: {{ item.product.price }} EGP</p>
+                                    <p class="mb-1">Available Stock: {{ item.product.stockQuantity }}</p>
+                                    <strong>Total: {{ item.product.price * item.quantity }} EGP</strong>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <label class="form-label">Quantity</label>
+
+                                    <div class="d-flex gap-2">
+                                        <input #guestQuantityInput type="number" class="form-control" min="1" [max]="item.product.stockQuantity" [value]="item.quantity">
+                                        <button type="button" class="btn btn-outline-dark" (click)="updateGuestQuantity(item.product._id, guestQuantityInput.value)">Update</button>
+                                    </div>
+
+                                    <button type="button" class="btn btn-danger w-100 mt-3" (click)="removeGuestItem(item.product._id)">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="cart-summary">
+                        <h3>Order Summary</h3>
+
+                        <div class="summary-row">
+                            <span>Total Items</span>
+                            <strong>{{ guestTotalItems }}</strong>
+                        </div>
+
+                        <div class="summary-row total-row">
+                            <span>Total Price</span>
+                            <strong>{{ guestTotalPrice }} EGP</strong>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-danger w-100 mt-3" (click)="clearGuestCart()">Clear Cart</button>
+                        <button type="button" class="btn btn-dark w-100 mt-2" (click)="checkout()">Login To Checkout</button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!isLoading && !isGuest && (!cart || cart.items.length === 0)) {
+            <div class="empty-cart">
+                <h3>Your cart is empty</h3>
+                <a routerLink="/products" class="btn btn-dark mt-3">Browse Products</a>
+            </div>
+        }
+
+        @if (!isLoading && !isGuest && cart && cart.items.length > 0) {
+            <div class="row g-4">
+                <div class="col-12 col-lg-8">
+                    @for (item of cart.items; track item._id) {
+                        <div class="cart-item mb-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <img [src]="staticURL + item.product.image" [alt]="item.product.name" class="cart-image">
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <a [routerLink]="['/products', item.product.slug]" class="product-name">{{ item.product.name }}</a>
+                                    <p class="mb-1">Saved Price: {{ item.price }} EGP</p>
+                                    <p class="mb-1">Current Price: {{ item.currentPrice }} EGP</p>
+                                    <p class="mb-1">Available Stock: {{ item.availableStock }}</p>
+
+                                    @if (!item.isAvailable) {
+                                        <p class="text-danger mb-2">This product is currently unavailable</p>
+                                    }
+
+                                    @if (item.exceedsStock) {
+                                        <p class="text-danger mb-2">The selected quantity exceeds the available stock</p>
+                                    }
+
+                                    @if (item.isPriceChanged) {
+                                        <div class="price-alert">
+                                            <p class="mb-2">The product price has changed</p>
+                                            <button type="button" class="btn btn-warning btn-sm" (click)="acceptPriceChange(item.product._id)">Accept New Price</button>
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <label class="form-label">Quantity</label>
+
+                                    <div class="d-flex gap-2">
+                                        <input #quantityInput type="number" class="form-control" min="1" [max]="item.availableStock" [value]="item.quantity">
+                                        <button type="button" class="btn btn-outline-dark" [disabled]="!item.isAvailable" (click)="updateQuantity(item.product._id, quantityInput.value)">Update</button>
+                                    </div>
+
+                                    <button type="button" class="btn btn-danger w-100 mt-3" (click)="removeItem(item.product._id)">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="cart-summary">
+                        <h3>Order Summary</h3>
+
+                        <div class="summary-row">
+                            <span>Total Items</span>
+                            <strong>{{ cart.totalItems }}</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Saved Total</span>
+                            <strong>{{ cart.totalPrice }} EGP</strong>
+                        </div>
+
+                        <div class="summary-row total-row">
+                            <span>Current Total</span>
+                            <strong>{{ cart.currentTotalPrice }} EGP</strong>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-danger w-100 mt-3" (click)="clearCart()">Clear Cart</button>
+                        <button type="button" class="btn btn-dark w-100 mt-2" (click)="checkout()">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

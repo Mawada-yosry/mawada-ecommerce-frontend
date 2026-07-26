@@ -1,0 +1,170 @@
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <p class="hero-label">NEW SEASON COLLECTION</p>
+            <h1>Everyday Style, Made For You</h1>
+            <p>Discover modern casualwear designed for comfort, confidence and effortless everyday style.</p>
+
+            <div class="hero-buttons">
+                <a routerLink="/products" class="btn btn-light btn-lg">Shop Now</a>
+                <a routerLink="/pages/about-us" class="btn btn-outline-light btn-lg">Discover Our Story</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (errorMessage) {
+    <div class="container mt-4">
+        <div class="alert alert-danger">{{ errorMessage }}</div>
+    </div>
+}
+
+<section class="categories-section py-5">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+               <p class="section-label">SHOP BY CATEGORY</p>
+<h2>Find Your Everyday Look</h2>
+<p>Explore our latest collections and discover styles created to match every mood and occasion.</p>
+            </div>
+
+            <a routerLink="/products" class="section-link">View All Products</a>
+        </div>
+
+        @if (isLoadingCategories) {
+            <div class="text-center py-4">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoadingCategories && categoriesList.length === 0) {
+            <div class="alert alert-info">No categories available</div>
+        }
+
+        @if (!isLoadingCategories && categoriesList.length > 0) {
+            <div class="categories-grid">
+                @for (category of categoriesList; track category._id) {
+                    <a [routerLink]="['/products/category', category.slug]" class="category-card">
+                        <span>{{ category.name }}</span>
+                        <span class="category-arrow">→</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<section class="products-section py-5">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="section-label">LATEST ARRIVALS</p>
+                <h2>New Products</h2>
+            </div>
+
+            <a routerLink="/products" class="section-link">View All</a>
+        </div>
+
+        @if (isLoadingProducts) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoadingProducts && productsList.length === 0) {
+            <div class="alert alert-info">No products available</div>
+        }
+
+        @if (!isLoadingProducts && productsList.length > 0) {
+            <div class="row g-4">
+                @for (product of productsList; track product._id) {
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <app-product [myProduct]="product"></app-product>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<section class="store-message">
+    <div class="container">
+        <div class="message-content">
+            <p class="section-label">E-Commerce Store</p>
+            <h2>Style That Matches Your Personality</h2>
+            <p>Quality clothing, easy shopping and cash on delivery.</p>
+            <a routerLink="/products" class="btn btn-dark btn-lg">Start Shopping</a>
+        </div>
+    </div>
+</section>
+
+<section class="reviews-section py-5">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="section-label">CUSTOMER REVIEWS</p>
+                <h2>What Our Customers Say</h2>
+            </div>
+
+            <a routerLink="/testimonials" class="section-link">View All Reviews</a>
+        </div>
+
+        @if (isLoadingTestimonials) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoadingTestimonials && testimonialsList.length === 0) {
+            <div class="alert alert-info">No approved reviews yet</div>
+        }
+
+        @if (!isLoadingTestimonials && testimonialsList.length > 0) {
+            <div class="row g-4">
+                @for (testimonial of testimonialsList; track testimonial._id) {
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="review-card">
+                            <div class="review-stars">
+                                @for (star of getStars(testimonial.ratingStars); track $index) {
+                                    <span>★</span>
+                                }
+                            </div>
+
+                            <p class="review-message">{{ testimonial.message }}</p>
+                            <h5>{{ getUserName(testimonial) }}</h5>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<footer class="store-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-12 col-md-5">
+                <h3>E-commerce Store</h3>
+                <p>Modern casual clothing for young people.</p>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <h5>Store</h5>
+                <a routerLink="/products">Products</a>
+                <a routerLink="/testimonials">Reviews</a>
+                <a routerLink="/pages/about-us">About Us</a>
+            </div>
+
+            <div class="col-6 col-md-4">
+                <h5>Information</h5>
+                <a routerLink="/pages/contact-us">Contact Us</a>
+                <a routerLink="/pages/faq">FAQ</a>
+                <a routerLink="/pages/terms-policy">Terms & Policy</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026  E-Commerce Store</span>
+        </div>
+    </div>
+</footer>

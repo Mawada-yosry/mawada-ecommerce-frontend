@@ -1,0 +1,102 @@
+<section class="products-page py-5">
+    <div class="container">
+        <div class="page-title">
+            <div>
+                <h1>{{ selectedCategoryName || 'Our Products' }}</h1>
+
+                @if (selectedCategoryName) {
+                    <p class="text-muted mb-0">Products available in {{ selectedCategoryName }}</p>
+                }
+            </div>
+        </div>
+
+        @if (categoriesList.length > 0) {
+            <div class="categories-list">
+                <a routerLink="/products" class="category-link">All Products</a>
+
+                @for (category of categoriesList; track category._id) {
+                    <a [routerLink]="['/products/category', category.slug]" class="category-link">{{ category.name }}</a>
+                }
+            </div>
+        }
+
+        <form class="filters-card" [formGroup]="filterForm" (ngSubmit)="searchProducts()">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-lg-4">
+                    <label for="keyword" class="form-label">Search</label>
+                    <input id="keyword" type="text" class="form-control" formControlName="keyword" placeholder="Search by name or description">
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-2">
+                    <label for="category" class="form-label">Category</label>
+
+                    <select id="category" class="form-select" formControlName="category" (change)="categoryChanged()">
+                        <option value="">All Categories</option>
+
+                        @for (category of categoriesList; track category._id) {
+                            <option [value]="category._id">{{ category.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-2">
+                    <label for="subCategory" class="form-label">SubCategory</label>
+
+<select id="subCategory" class="form-select" formControlName="subCategory" (change)="subCategoryChanged()">                     
+       <option value="">All SubCategories</option>
+
+                        @for (subCategory of subCategoriesList; track subCategory._id) {
+                            <option [value]="subCategory._id">{{ subCategory.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-2">
+                    <label for="sort" class="form-label">Sort By</label>
+
+                    <select id="sort" class="form-select" formControlName="sort" (change)="sortChanged()">
+                        <option value="-createdAt">Newest</option>
+                        <option value="createdAt">Oldest</option>
+                        <option value="price">Price: Low To High</option>
+                        <option value="-price">Price: High To Low</option>
+                        <option value="name">Name: A To Z</option>
+                        <option value="-name">Name: Z To A</option>
+                        <option value="stockQuantity">Lowest Stock</option>
+                        <option value="-stockQuantity">Highest Stock</option>
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dark flex-grow-1">Search</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (!isLoading && !errorMessage && productsList.length === 0) {
+            <div class="alert alert-info">No products match your search</div>
+        }
+
+        @if (!isLoading && productsList.length > 0) {
+            <div class="row g-4">
+                @for (product of productsList; track product._id) {
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                        <app-product [myProduct]="product"></app-product>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

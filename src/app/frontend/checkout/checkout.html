@@ -1,0 +1,66 @@
+<section class="checkout-page py-5">
+    <div class="container">
+        <div class="checkout-card">
+            <h1>Checkout</h1>
+            <p class="text-muted">Confirm your delivery information</p>
+
+            @if (isLoading) {
+                <div class="text-center py-5">
+                    <div class="spinner-border"></div>
+                </div>
+            }
+
+            @if (errorMessage) {
+                <div class="alert alert-danger">{{ errorMessage }}</div>
+            }
+
+            @if (successMessage) {
+                <div class="alert alert-success">
+                    <p class="mb-1">{{ successMessage }}</p>
+                    <p class="mb-0">Order ID: {{ createdOrderId }}</p>
+                </div>
+
+                <a routerLink="/products" class="btn btn-dark">Continue Shopping</a>
+            }
+
+            @if (!isLoading && !successMessage) {
+                <form [formGroup]="checkoutForm" (ngSubmit)="createOrder()">
+                    <div class="mb-3">
+                        <label for="shippingAddress" class="form-label">Shipping Address</label>
+                        <textarea id="shippingAddress" class="form-control" rows="4" formControlName="shippingAddress"></textarea>
+
+                        @if (checkoutForm.controls.shippingAddress.touched && checkoutForm.controls.shippingAddress.invalid) {
+                            <small class="text-danger">Shipping address is required</small>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="shippingPhone" class="form-label">Shipping Phone</label>
+                        <input id="shippingPhone" type="text" class="form-control" formControlName="shippingPhone">
+
+                        @if (checkoutForm.controls.shippingPhone.touched && checkoutForm.controls.shippingPhone.hasError('required')) {
+                            <small class="text-danger">Shipping phone is required</small>
+                        }
+
+                        @if (checkoutForm.controls.shippingPhone.touched && checkoutForm.controls.shippingPhone.hasError('pattern')) {
+                            <small class="text-danger">Enter a valid Egyptian phone number</small>
+                        }
+                    </div>
+
+                    <div class="payment-box mb-4">
+                        <span>Payment Method</span>
+                        <strong>Cash on Delivery</strong>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100" [disabled]="isCreatingOrder">
+                        @if (isCreatingOrder) {
+                            Creating Order...
+                        } @else {
+                            Confirm Order
+                        }
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+</section>

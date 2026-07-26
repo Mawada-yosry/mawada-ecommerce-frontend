@@ -1,0 +1,62 @@
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-between py-3 border-bottom">
+        <a routerLink="/home" class="fs-4 text-dark text-decoration-none">E-Commerce Store</a>
+
+        <ul class="nav nav-pills align-items-center">
+            <li class="nav-item">
+                <a routerLink="/home" routerLinkActive="active" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+    <a routerLink="/cart" routerLinkActive="active" class="nav-link">Cart</a>
+</li>
+
+            @if (name) {
+                <li class="nav-item">
+                    <span class="nav-link text-dark">Hi: {{ name }}</span>
+                </li>
+
+                <li class="nav-item">
+                    <button type="button" class="btn btn-link nav-link" (click)="logout()">Logout</button>
+                </li>
+                <li class="nav-item">
+    <a routerLink="/products" routerLinkActive="active" class="nav-link">Products</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/testimonials" routerLinkActive="active" class="nav-link">Reviews</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/pages/about-us" routerLinkActive="active" class="nav-link">About</a>
+</li>
+
+<li class="nav-item">
+    <a routerLink="/pages/contact-us" routerLinkActive="active" class="nav-link">Contact</a>
+</li>
+
+<li class="nav-item">
+    <a routerLink="/pages/faq" routerLinkActive="active" class="nav-link">FAQ</a>
+</li>
+
+<li class="nav-item">
+    <a routerLink="/pages/terms-policy" routerLinkActive="active" class="nav-link">Policy</a>
+</li>
+
+                <li class="nav-item">
+    <a routerLink="/orders" routerLinkActive="active" class="nav-link">My Orders</a>
+</li>
+<li class="nav-item">
+    <a routerLink="/profile" routerLinkActive="active" class="nav-link">Profile</a>
+</li>
+            } @else {
+                <li class="nav-item">
+                    <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a routerLink="/register" routerLinkActive="active" class="nav-link">Register</a>
+                </li>
+                
+            }
+        </ul>
+    </header>
+</div>
+

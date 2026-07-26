@@ -1,0 +1,23 @@
+<section class="dynamic-page py-5">
+    <div class="container">
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (errorMessage) {
+            <div class="page-error">
+                <div class="alert alert-danger">{{ errorMessage }}</div>
+                <a routerLink="/home" class="btn btn-dark">Back To Home</a>
+            </div>
+        }
+
+        @if (!isLoading && page) {
+            <div class="page-card">
+                <h1>{{ page.title }}</h1>
+                <div class="page-content">{{ page.content }}</div>
+            </div>
+        }
+    </div>
+</section>

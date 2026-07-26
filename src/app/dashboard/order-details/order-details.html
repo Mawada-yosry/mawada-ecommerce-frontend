@@ -1,0 +1,115 @@
+<section class="order-details-page py-5">
+    <div class="container-fluid">
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        @if (!isLoading && order) {
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <p class="section-label">ORDER DETAILS</p>
+                        <h1>Order #{{ order._id }}</h1>
+                        <p class="text-muted mb-0">{{ order.createdAt | date:'medium' }}</p>
+                    </div>
+
+                    <span class="status-badge">{{ order.orderStatus }}</span>
+                </div>
+
+                <div class="information-grid">
+                    <div>
+                        <span>Customer Name</span>
+                        <strong>{{ getCustomerName() }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Customer Email</span>
+                        <strong>{{ getCustomerEmail() || 'Not Available' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Customer Phone</span>
+                        <strong>{{ getCustomerPhone() }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Shipping Phone</span>
+                        <strong>{{ order.shippingPhone }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Shipping Address</span>
+                        <strong>{{ order.shippingAddress }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Payment Method</span>
+                        <strong>{{ order.paymentMethod }}</strong>
+                    </div>
+                </div>
+
+                @if (getNextStatuses(order.orderStatus).length > 0) {
+                    <div class="status-update">
+                        <div>
+                            <h4>Update Order Status</h4>
+                            <p class="text-muted mb-0">Current status: {{ order.orderStatus }}</p>
+                        </div>
+
+                        <div class="status-controls">
+                            <select #statusSelect class="form-select">
+                                <option value="">Select Status</option>
+
+                                @for (status of getNextStatuses(order.orderStatus); track status) {
+                                    <option [value]="status">{{ status }}</option>
+                                }
+                            </select>
+
+                            <button type="button" class="btn btn-dark" [disabled]="isUpdating" (click)="updateStatus(statusSelect.value)">
+                                @if (isUpdating) {
+                                    Updating...
+                                } @else {
+                                    Update Status
+                                }
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                <h3 class="items-title">Order Items</h3>
+
+                <div class="order-items">
+                    @for (item of order.items; track item._id) {
+                        <div class="order-item">
+                            <img [src]="staticURL + item.product.image" [alt]="item.product.name">
+
+                            <div class="item-data">
+                                <strong>{{ item.product.name }}</strong>
+                                <span>Quantity: {{ item.quantity }}</span>
+                                <span>Price At Sale: {{ item.price }} EGP</span>
+                            </div>
+
+                            <strong>{{ item.price * item.quantity }} EGP</strong>
+                        </div>
+                    }
+                </div>
+
+                <div class="order-total">
+                    <span>Total Price</span>
+                    <strong>{{ order.totalPrice }} EGP</strong>
+                </div>
+
+                <a routerLink="/dashboard/orders" class="btn btn-outline-dark">Back To Orders</a>
+            </div>
+        }
+    </div>
+</section>

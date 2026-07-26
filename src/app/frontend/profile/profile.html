@@ -1,0 +1,135 @@
+<section class="profile-page py-5">
+    <div class="container">
+        <h1 class="mb-4">My Profile</h1>
+
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoading) {
+            <div class="row g-4">
+                <div class="col-12 col-lg-7">
+                    <div class="profile-card">
+                        <h3>Personal Information</h3>
+
+                        @if (profileErrorMessage) {
+                            <div class="alert alert-danger">{{ profileErrorMessage }}</div>
+                        }
+
+                        @if (profileSuccessMessage) {
+                            <div class="alert alert-success">{{ profileSuccessMessage }}</div>
+                        }
+
+                        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input id="name" type="text" class="form-control" formControlName="name">
+
+                                @if (profileForm.controls.name.touched && profileForm.controls.name.invalid) {
+                                    <small class="text-danger">Name is required</small>
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input id="email" type="email" class="form-control" [value]="userEmail" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input id="phone" type="text" class="form-control" formControlName="phone">
+
+                                @if (profileForm.controls.phone.touched && profileForm.controls.phone.hasError('required')) {
+                                    <small class="text-danger">Phone is required</small>
+                                }
+
+                                @if (profileForm.controls.phone.touched && profileForm.controls.phone.hasError('pattern')) {
+                                    <small class="text-danger">Enter a valid Egyptian phone number</small>
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea id="address" class="form-control" rows="4" formControlName="address"></textarea>
+
+                                @if (profileForm.controls.address.touched && profileForm.controls.address.invalid) {
+                                    <small class="text-danger">Address is required</small>
+                                }
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="role" class="form-label">Role</label>
+                                <input id="role" type="text" class="form-control" [value]="userRole" disabled>
+                            </div>
+
+                            <button type="submit" class="btn btn-dark" [disabled]="isUpdatingProfile">
+                                @if (isUpdatingProfile) {
+                                    Updating...
+                                } @else {
+                                    Update Profile
+                                }
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-5">
+                    <div class="profile-card">
+                        <h3>Change Password</h3>
+
+                        @if (passwordErrorMessage) {
+                            <div class="alert alert-danger">{{ passwordErrorMessage }}</div>
+                        }
+
+                        @if (passwordSuccessMessage) {
+                            <div class="alert alert-success">{{ passwordSuccessMessage }}</div>
+                        }
+
+                        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                            <div class="mb-3">
+                                <label for="currentPassword" class="form-label">Current Password</label>
+                                <input id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
+
+                                @if (passwordForm.controls.currentPassword.touched && passwordForm.controls.currentPassword.invalid) {
+                                    <small class="text-danger">Current password is required</small>
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label">New Password</label>
+                                <input id="newPassword" type="password" class="form-control" formControlName="newPassword">
+
+                                @if (passwordForm.controls.newPassword.touched && passwordForm.controls.newPassword.hasError('required')) {
+                                    <small class="text-danger">New password is required</small>
+                                }
+
+                                @if (passwordForm.controls.newPassword.touched && passwordForm.controls.newPassword.hasError('minlength')) {
+                                    <small class="text-danger">Password must be at least 6 characters</small>
+                                }
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
+
+                                @if (passwordForm.controls.confirmPassword.touched && passwordForm.controls.confirmPassword.invalid) {
+                                    <small class="text-danger">Confirm password is required</small>
+                                }
+                            </div>
+
+                            <button type="submit" class="btn btn-dark" [disabled]="isChangingPassword">
+                                @if (isChangingPassword) {
+                                    Changing...
+                                } @else {
+                                    Change Password
+                                }
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

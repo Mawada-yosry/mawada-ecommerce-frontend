@@ -1,0 +1,260 @@
+<section class="products-page py-5">
+    <div class="container-fluid">
+        <div class="page-header">
+            <div>
+                <p class="section-label">PRODUCT MANAGEMENT</p>
+                <h1>Products</h1>
+            </div>
+
+            <span class="products-count">{{ productsList.length }} Products</span>
+        </div>
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        <div class="product-form-card">
+            <h3>{{ selectedProductId ? 'Edit Product' : 'Add Product' }}</h3>
+
+            <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label for="name" class="form-label">Product Name</label>
+                        <input id="name" type="text" class="form-control" formControlName="name">
+
+                        @if (productForm.controls.name.touched && productForm.controls.name.invalid) {
+                            <small class="text-danger">Product name is required</small>
+                        }
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input id="price" type="number" class="form-control" min="0" formControlName="price">
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label for="discount" class="form-label">Discount</label>
+                        <input id="discount" type="number" class="form-control" min="0" formControlName="discount">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea id="description" class="form-control" rows="4" formControlName="description"></textarea>
+
+                        @if (productForm.controls.description.touched && productForm.controls.description.invalid) {
+                            <small class="text-danger">Description is required</small>
+                        }
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label for="stockQuantity" class="form-label">Stock Quantity</label>
+                        <input id="stockQuantity" type="number" class="form-control" min="0" formControlName="stockQuantity">
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label for="category" class="form-label">Category</label>
+
+                        <select id="category" class="form-select" formControlName="category" (change)="productCategoryChanged()">
+                            <option value="">Select Category</option>
+
+                            @for (category of categoriesList; track category._id) {
+                                @if (category.isActive && !category.isDeleted) {
+                                    <option [value]="category._id">{{ category.name }}</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label for="subCategory" class="form-label">SubCategory</label>
+
+                        <select id="subCategory" class="form-select" formControlName="subCategory">
+                            <option value="">Select SubCategory</option>
+
+                            @for (subCategory of filteredSubCategoriesList; track subCategory._id) {
+                                <option [value]="subCategory._id">{{ subCategory.name }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <label for="image" class="form-label">Product Image</label>
+                        <input id="image" type="file" class="form-control" accept="image/*" (change)="imageChanged($event)">
+                        <small class="text-muted">The image is optional when editing an existing product</small>
+                    </div>
+
+                    @if (imagePreview) {
+                        <div class="col-12 col-md-4">
+                            <img [src]="imagePreview" alt="Product Preview" class="image-preview">
+                        </div>
+                    }
+
+                    <div class="col-12">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-dark" [disabled]="isSaving">
+                                @if (isSaving) {
+                                    Saving...
+                                } @else if (selectedProductId) {
+                                    Update Product
+                                } @else {
+                                    Add Product
+                                }
+                            </button>
+
+                            @if (selectedProductId) {
+                                <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Cancel</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <form class="filters-card" [formGroup]="filterForm" (ngSubmit)="getProducts()">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                    <label for="keyword" class="form-label">Search</label>
+                    <input id="keyword" type="text" class="form-control" formControlName="keyword" placeholder="Name or description">
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <label for="filterCategory" class="form-label">Category</label>
+
+                    <select id="filterCategory" class="form-select" formControlName="category" (change)="filterCategoryChanged()">
+                        <option value="">All Categories</option>
+
+                        @for (category of categoriesList; track category._id) {
+                            <option [value]="category._id">{{ category.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <label for="filterSubCategory" class="form-label">SubCategory</label>
+
+                    <select id="filterSubCategory" class="form-select" formControlName="subCategory" (change)="getProducts()">
+                        <option value="">All SubCategories</option>
+
+                        @for (subCategory of filterSubCategoriesList; track subCategory._id) {
+                            <option [value]="subCategory._id">{{ subCategory.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-2">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dark flex-grow-1">Search</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoading && productsList.length === 0) {
+            <div class="alert alert-info">No products available</div>
+        }
+
+        @if (!isLoading && productsList.length > 0) {
+            <div class="products-table-card">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (product of productsList; track product._id) {
+                                <tr>
+                                    <td>
+                                        <div class="product-information">
+                                            <img [src]="staticURL + product.image" [alt]="product.name">
+
+                                            <div>
+                                                <strong>{{ product.name }}</strong>
+                                                <span>{{ product.slug }}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="d-block">{{ product.category.name }}</span>
+                                        <span class="text-muted">{{ product.subCategory.name }}</span>
+                                    </td>
+
+                                    <td>
+                                        <strong>{{ product.price }} EGP</strong>
+
+                                        @if (product.discount > 0) {
+                                            <span class="d-block text-danger">Discount: {{ product.discount }}</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <span>{{ product.stockQuantity }}</span>
+
+                                        @if (product.stockStatus === 'out_of_stock') {
+                                            <span class="stock-badge out-stock">Out of stock</span>
+                                        } @else if (product.stockStatus === 'low_stock') {
+                                            <span class="stock-badge low-stock">Low stock</span>
+                                        } @else {
+                                            <span class="stock-badge in-stock">In stock</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (product.isActive) {
+                                            <span class="status-badge active-status">Active</span>
+                                        } @else {
+                                            <span class="status-badge inactive-status">Inactive</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" (click)="editProduct(product)">Edit</button>
+
+                                            <button type="button" class="btn btn-sm btn-outline-dark" [disabled]="updatingProductId === product._id" (click)="updateStatus(product)">
+                                                @if (updatingProductId === product._id) {
+                                                    Updating...
+                                                } @else if (product.isActive) {
+                                                    Deactivate
+                                                } @else {
+                                                    Activate
+                                                }
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="deletingProductId === product._id" (click)="deleteProduct(product)">
+                                                @if (deletingProductId === product._id) {
+                                                    Deleting...
+                                                } @else {
+                                                    Delete
+                                                }
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</section>

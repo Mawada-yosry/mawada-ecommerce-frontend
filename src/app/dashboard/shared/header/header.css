@@ -1,0 +1,29 @@
+.dashboard-header {
+    color: white;
+    background-color: #111;
+}
+
+.dashboard-logo {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.nav-link {
+    color: #ddd;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link.active {
+    color: #111;
+    background-color: white;
+}
+
+.admin-name {
+    color: white;
+}

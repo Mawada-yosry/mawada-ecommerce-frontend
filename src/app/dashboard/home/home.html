@@ -1,0 +1,85 @@
+<section class="dashboard-home py-5">
+    <div class="container-fluid">
+        <div class="welcome-card">
+            <p class="section-label">ADMIN PANEL</p>
+            <h1>Dashboard Home</h1>
+            <p>Manage users, categories, products, orders, reviews and website pages.</p>
+        </div>
+
+        @if (errorMessage) {
+            <div class="alert alert-danger mt-4">{{ errorMessage }}</div>
+        }
+
+        <div class="notifications-grid">
+            <a routerLink="/dashboard/orders" class="notification-card">
+                <div>
+                    <span class="notification-label">Pending Orders</span>
+
+                    @if (isLoadingOrders) {
+                        <div class="spinner-border spinner-border-sm"></div>
+                    } @else {
+                        <strong>{{ pendingOrdersCount }}</strong>
+                    }
+                </div>
+
+                <span class="notification-link">View Orders →</span>
+            </a>
+
+            <a routerLink="/dashboard/products" class="notification-card danger-card">
+                <div>
+                    <span class="notification-label">Out Of Stock</span>
+
+                    @if (isLoadingProducts) {
+                        <div class="spinner-border spinner-border-sm"></div>
+                    } @else {
+                        <strong>{{ outOfStockProductsCount }}</strong>
+                    }
+                </div>
+
+                <span class="notification-link">View Products →</span>
+            </a>
+
+            <a routerLink="/dashboard/products" class="notification-card warning-card">
+                <div>
+                    <span class="notification-label">Low Stock</span>
+
+                    @if (isLoadingProducts) {
+                        <div class="spinner-border spinner-border-sm"></div>
+                    } @else {
+                        <strong>{{ lowStockProductsCount }}</strong>
+                    }
+                </div>
+
+                <span class="notification-link">View Products →</span>
+            </a>
+
+            <a routerLink="/dashboard/testimonials" class="notification-card success-card">
+                <div>
+                    <span class="notification-label">Pending Testimonials</span>
+
+                    @if (isLoadingTestimonials) {
+                        <div class="spinner-border spinner-border-sm"></div>
+                    } @else {
+                        <strong>{{ pendingTestimonialsCount }}</strong>
+                    }
+                </div>
+
+                <span class="notification-link">View Testimonials →</span>
+            </a>
+        </div>
+
+        <div class="management-card">
+            <h3>Store Management</h3>
+
+            <div class="management-links">
+                <a routerLink="/dashboard/users">Users</a>
+                <a routerLink="/dashboard/categories">Categories</a>
+                <a routerLink="/dashboard/sub-categories">SubCategories</a>
+                <a routerLink="/dashboard/products">Products</a>
+                <a routerLink="/dashboard/orders">Orders</a>
+                <a routerLink="/dashboard/testimonials">Testimonials</a>
+                <a routerLink="/dashboard/pages">Pages</a>
+            </div>
+        </div>
+    </div>
+</section>

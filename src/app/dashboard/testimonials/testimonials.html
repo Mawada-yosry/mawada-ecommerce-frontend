@@ -1,0 +1,111 @@
+<section class="testimonials-page py-5">
+    <div class="container-fluid">
+        <div class="page-header">
+            <div>
+                <p class="section-label">TESTIMONIAL MANAGEMENT</p>
+                <h1>Testimonials</h1>
+            </div>
+
+            <span class="testimonials-count">{{ testimonialsList.length }} Testimonials</span>
+        </div>
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        <form class="filters-card" [formGroup]="filterForm">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-8">
+                    <label for="status" class="form-label">Testimonial Status</label>
+
+                    <select id="status" class="form-select" formControlName="status" (change)="getTestimonials()">
+                        <option value="">All Statuses</option>
+
+                        @for (status of testimonialStatuses; track status) {
+                            <option [value]="status">{{ status }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <button type="button" class="btn btn-outline-secondary w-100" (click)="clearFilter()">Clear Filter</button>
+                </div>
+            </div>
+        </form>
+
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoading && testimonialsList.length === 0) {
+            <div class="alert alert-info">No testimonials available</div>
+        }
+
+        @if (!isLoading && testimonialsList.length > 0) {
+            <div class="testimonials-grid">
+                @for (testimonial of testimonialsList; track testimonial._id) {
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div>
+                                <h4>{{ getUserName(testimonial) }}</h4>
+                                <span>{{ testimonial.createdAt | date:'medium' }}</span>
+                            </div>
+
+                            <span [class]="'status-badge ' + getStatusClass(testimonial.status)">{{ testimonial.status }}</span>
+                        </div>
+
+                        <div class="customer-data">
+                            @if (getUserEmail(testimonial)) {
+                                <span>{{ getUserEmail(testimonial) }}</span>
+                            }
+
+                            @if (getUserPhone(testimonial)) {
+                                <span>{{ getUserPhone(testimonial) }}</span>
+                            }
+                        </div>
+
+                        <div class="stars">
+                            @for (star of getStars(testimonial.ratingStars); track $index) {
+                                <span>★</span>
+                            }
+                        </div>
+
+                        <p class="testimonial-message">{{ testimonial.message }}</p>
+
+                        <div class="testimonial-actions">
+                            <select #statusSelect class="form-select">
+                                <option value="">Select Status</option>
+
+                                @for (status of testimonialStatuses; track status) {
+                                    <option [value]="status" [selected]="status === testimonial.status">{{ status }}</option>
+                                }
+                            </select>
+
+                            <button type="button" class="btn btn-dark" [disabled]="updatingTestimonialId === testimonial._id" (click)="updateStatus(testimonial, statusSelect.value)">
+                                @if (updatingTestimonialId === testimonial._id) {
+                                    Updating...
+                                } @else {
+                                    Update Status
+                                }
+                            </button>
+
+                            <button type="button" class="btn btn-outline-danger" [disabled]="deletingTestimonialId === testimonial._id" (click)="deleteTestimonial(testimonial)">
+                                @if (deletingTestimonialId === testimonial._id) {
+                                    Deleting...
+                                } @else {
+                                    Delete
+                                }
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

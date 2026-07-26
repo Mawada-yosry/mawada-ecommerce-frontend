@@ -1,0 +1,135 @@
+.testimonials-page {
+    min-height: calc(100vh - 75px);
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.section-label {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.page-header h1 {
+    margin-bottom: 0;
+}
+
+.testimonials-count {
+    padding: 8px 15px;
+    background-color: white;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.filters-card {
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.form-select,
+button {
+    min-height: 45px;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.testimonial-card {
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.testimonial-header h4 {
+    margin-bottom: 5px;
+}
+
+.testimonial-header div span,
+.customer-data span {
+    color: #777;
+    font-size: 14px;
+}
+
+.customer-data {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 12px;
+}
+
+.stars {
+    margin: 18px 0;
+    color: #f5b301;
+    font-size: 22px;
+}
+
+.testimonial-message {
+    min-height: 90px;
+    line-height: 1.8;
+}
+
+.status-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pending-status {
+    color: #664d03;
+    background-color: #fff3cd;
+}
+
+.approved-status {
+    color: #0f5132;
+    background-color: #d1e7dd;
+}
+
+.rejected-status {
+    color: #842029;
+    background-color: #f8d7da;
+}
+
+.testimonial-actions {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+}
+
+@media (max-width: 991px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .testimonial-actions {
+        grid-template-columns: 1fr;
+    }
+}

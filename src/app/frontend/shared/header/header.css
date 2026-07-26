@@ -1,0 +1,7 @@
+header {
+    min-height: 75px;
+}
+
+.nav-link {
+    cursor: pointer;
+}

@@ -1,0 +1,145 @@
+.order-details-page {
+    min-height: calc(100vh - 75px);
+}
+
+.order-card {
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.order-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-header h1 {
+    word-break: break-all;
+}
+
+.section-label {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.status-badge {
+    padding: 8px 14px;
+    background-color: #eee;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.information-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 30px 0;
+}
+
+.information-grid div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.information-grid span {
+    color: #777;
+}
+
+.status-update {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 22px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+}
+
+.status-controls {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.form-select,
+button {
+    min-height: 45px;
+}
+
+.items-title {
+    margin-bottom: 20px;
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+}
+
+.order-item img {
+    width: 90px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-data {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    margin: 25px 0;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 23px;
+}
+
+@media (max-width: 767px) {
+    .order-card {
+        padding: 20px;
+    }
+
+    .order-header,
+    .status-update,
+    .status-controls {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-controls {
+        max-width: none;
+    }
+
+    .order-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

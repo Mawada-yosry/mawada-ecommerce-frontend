@@ -1,0 +1,32 @@
+.dynamic-page {
+    min-height: calc(100vh - 75px);
+    background-color: #f7f7f7;
+}
+
+.page-card {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.page-card h1 {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.page-content {
+    color: #444;
+    font-size: 18px;
+    line-height: 1.9;
+    white-space: pre-line;
+}
+
+.page-error {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+}

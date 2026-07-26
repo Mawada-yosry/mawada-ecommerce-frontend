@@ -1,0 +1,103 @@
+<section class="testimonials-page py-5">
+    <div class="container">
+        <div class="page-heading">
+            <h1>Customer Reviews</h1>
+            <p class="text-muted">See what our customers say about their experience</p>
+        </div>
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        <div class="row g-4">
+            <div class="col-12 col-lg-7">
+                <div class="testimonials-card">
+                    <h3>Approved Reviews</h3>
+
+                    @if (isLoading) {
+                        <div class="text-center py-5">
+                            <div class="spinner-border"></div>
+                        </div>
+                    }
+
+                    @if (!isLoading && testimonialsList.length === 0) {
+                        <div class="alert alert-info mb-0">No approved reviews yet</div>
+                    }
+
+                    @if (!isLoading && testimonialsList.length > 0) {
+                        <div class="testimonials-list">
+                            @for (testimonial of testimonialsList; track testimonial._id) {
+                                <div class="testimonial-item">
+                                    <div class="testimonial-header">
+                                        <div>
+                                            <h5>{{ getUserName(testimonial) }}</h5>
+                                            <p class="text-muted mb-0">{{ testimonial.createdAt | date:'mediumDate' }}</p>
+                                        </div>
+
+                                        <div class="stars">
+                                            @for (star of getStars(testimonial.ratingStars); track $index) {
+                                                <span>★</span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <p class="testimonial-message">{{ testimonial.message }}</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <div class="testimonials-card">
+                    <h3>Share Your Experience</h3>
+
+                    @if (!isLoggedIn) {
+                        <div class="login-message">
+                            <p>You must be logged in to submit a review</p>
+                            <a routerLink="/login" class="btn btn-dark">Login</a>
+                        </div>
+                    }
+
+                    @if (isLoggedIn) {
+                        <form [formGroup]="testimonialForm" (ngSubmit)="submitTestimonial()">
+                            <div class="mb-3">
+                                <label for="ratingStars" class="form-label">Rating</label>
+
+                                <select id="ratingStars" class="form-select" formControlName="ratingStars">
+                                    <option [ngValue]="5">5 Stars</option>
+                                    <option [ngValue]="4">4 Stars</option>
+                                    <option [ngValue]="3">3 Stars</option>
+                                    <option [ngValue]="2">2 Stars</option>
+                                    <option [ngValue]="1">1 Star</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Your Review</label>
+                                <textarea id="message" class="form-control" rows="6" formControlName="message"></textarea>
+
+                                @if (testimonialForm.controls.message.touched && testimonialForm.controls.message.invalid) {
+                                    <small class="text-danger">Review message is required</small>
+                                }
+                            </div>
+
+                            <button type="submit" class="btn btn-dark w-100" [disabled]="isSubmitting">
+                                @if (isSubmitting) {
+                                    Submitting...
+                                } @else {
+                                    Submit Review
+                                }
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

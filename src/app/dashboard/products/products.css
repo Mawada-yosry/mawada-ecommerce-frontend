@@ -1,0 +1,149 @@
+.products-page {
+    min-height: calc(100vh - 75px);
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.section-label {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.page-header h1 {
+    margin-bottom: 0;
+}
+
+.products-count {
+    padding: 8px 15px;
+    background-color: white;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.product-form-card,
+.filters-card {
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.product-form-card h3 {
+    margin-bottom: 20px;
+}
+
+.form-control,
+.form-select,
+button {
+    min-height: 45px;
+}
+
+textarea.form-control {
+    min-height: 110px;
+}
+
+.image-preview {
+    width: 100%;
+    max-width: 180px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.products-table-card {
+    overflow: hidden;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.table th {
+    padding: 18px;
+    color: white;
+    background-color: #111;
+    white-space: nowrap;
+}
+
+.table td {
+    padding: 18px;
+}
+
+.product-information {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 250px;
+}
+
+.product-information img {
+    width: 65px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-information div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.product-information span {
+    color: #777;
+    font-size: 13px;
+}
+
+.status-badge,
+.stock-badge {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.active-status,
+.in-stock {
+    color: #0f5132;
+    background-color: #d1e7dd;
+}
+
+.inactive-status,
+.out-stock {
+    color: #842029;
+    background-color: #f8d7da;
+}
+
+.low-stock {
+    color: #664d03;
+    background-color: #fff3cd;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .table {
+        min-width: 1000px;
+    }
+}

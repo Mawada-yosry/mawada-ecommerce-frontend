@@ -1,0 +1,130 @@
+<section class="pages-page py-5">
+    <div class="container-fluid">
+        <div class="page-header">
+            <div>
+                <p class="section-label">DYNAMIC PAGE MANAGEMENT</p>
+                <h1>Website Pages</h1>
+            </div>
+
+            <span class="pages-count">{{ pagesList.length }} Pages</span>
+        </div>
+
+        @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        <div class="page-form-card">
+            <h3>{{ selectedPageId ? 'Edit Page' : 'Add Page' }}</h3>
+
+            <form [formGroup]="pageForm" (ngSubmit)="savePage()">
+                <div class="row g-3">
+                    <div class="col-12 col-md-5">
+                        <label for="pageKey" class="form-label">Page Key</label>
+                        <input id="pageKey" type="text" class="form-control" formControlName="pageKey" placeholder="about-us">
+
+                        @if (pageForm.controls.pageKey.touched && pageForm.controls.pageKey.invalid) {
+                            <small class="text-danger">Page key is required</small>
+                        }
+                    </div>
+
+                    <div class="col-12 col-md-7">
+                        <label for="title" class="form-label">Page Title</label>
+                        <input id="title" type="text" class="form-control" formControlName="title" placeholder="About Us">
+
+                        @if (pageForm.controls.title.touched && pageForm.controls.title.invalid) {
+                            <small class="text-danger">Page title is required</small>
+                        }
+                    </div>
+
+                    <div class="col-12">
+                        <label for="content" class="form-label">Page Content</label>
+                        <textarea id="content" class="form-control" rows="10" formControlName="content"></textarea>
+
+                        @if (pageForm.controls.content.touched && pageForm.controls.content.invalid) {
+                            <small class="text-danger">Page content is required</small>
+                        }
+                    </div>
+
+                    <div class="col-12">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="submit" class="btn btn-dark" [disabled]="isSaving">
+                                @if (isSaving) {
+                                    Saving...
+                                } @else if (selectedPageId) {
+                                    Update Page
+                                } @else {
+                                    Add Page
+                                }
+                            </button>
+
+                            @if (selectedPageId) {
+                                <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Cancel</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        @if (isLoading) {
+            <div class="text-center py-5">
+                <div class="spinner-border"></div>
+            </div>
+        }
+
+        @if (!isLoading && pagesList.length === 0) {
+            <div class="alert alert-info">No pages available</div>
+        }
+
+        @if (!isLoading && pagesList.length > 0) {
+            <div class="pages-grid">
+                @for (page of pagesList; track page._id) {
+                    <div class="page-card">
+                        <div class="page-card-header">
+                            <div>
+                                <h3>{{ page.title }}</h3>
+                                <span>/pages/{{ page.pageKey }}</span>
+                            </div>
+
+                            @if (page.isActive) {
+                                <span class="status-badge active-status">Active</span>
+                            } @else {
+                                <span class="status-badge inactive-status">Inactive</span>
+                            }
+                        </div>
+
+                        <p class="page-content">{{ page.content }}</p>
+
+                        <div class="page-actions">
+                            <button type="button" class="btn btn-sm btn-outline-primary" (click)="editPage(page)">Edit</button>
+
+                            <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="!page.isActive" (click)="openPage(page.pageKey)">View</button>
+
+                            <button type="button" class="btn btn-sm btn-outline-dark" [disabled]="updatingPageId === page._id" (click)="updateStatus(page)">
+                                @if (updatingPageId === page._id) {
+                                    Updating...
+                                } @else if (page.isActive) {
+                                    Deactivate
+                                } @else {
+                                    Activate
+                                }
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="deletingPageId === page._id" (click)="deletePage(page)">
+                                @if (deletingPageId === page._id) {
+                                    Deleting...
+                                } @else {
+                                    Delete
+                                }
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

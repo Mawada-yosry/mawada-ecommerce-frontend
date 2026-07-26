@@ -1,0 +1,51 @@
+<section class="register-page">
+    <div class="container">
+        <div class="register-card">
+            <h1>Create Account</h1>
+
+            @if (errorMessage) {
+                <div class="alert alert-danger">{{ errorMessage }}</div>
+            }
+
+            <form [formGroup]="registerForm" (ngSubmit)="register()">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input id="name" type="text" class="form-control" formControlName="name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input id="email" type="email" class="form-control" formControlName="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input id="phone" type="text" class="form-control" formControlName="phone" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input id="address" type="text" class="form-control" formControlName="address" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control" formControlName="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100" [disabled]="isLoading">
+                    @if (isLoading) {
+                        Creating Account...
+                    } @else {
+                        Register
+                    }
+                </button>
+
+                <p class="login-link">
+                    Already have an account?
+                    <a routerLink="/login">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
